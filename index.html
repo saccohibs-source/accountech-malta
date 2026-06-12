@@ -1,0 +1,941 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="AccounTech Malta — Accounting, VAT returns, payroll, government grants and business automation for self-employed and small businesses in Malta."/>
+  <title>AccounTech Malta — Accounting · Advisory · Automation</title>
+  <style>
+    /* ── TOKENS ── */
+    :root {
+      --navy:   #0A2540;
+      --navy2:  #0d2e4e;
+      --green:  #1D9E75;
+      --green2: #5DCAA5;
+      --white:  #FFFFFF;
+      --offwhite: #F0F7F4;
+      --muted:  rgba(255,255,255,0.55);
+      --border: rgba(29,158,117,0.25);
+      --radius: 10px;
+      --font-display: Georgia, 'Times New Roman', serif;
+      --font-body: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    }
+
+    /* ── RESET ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--navy);
+      color: var(--white);
+      font-family: var(--font-body);
+      font-size: 16px;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+    a { color: var(--green); text-decoration: none; }
+    a:hover { color: var(--green2); }
+    img { max-width: 100%; display: block; }
+
+    /* ── UTILITY ── */
+    .container { max-width: 1080px; margin: 0 auto; padding: 0 28px; }
+    .tag {
+      display: inline-block;
+      background: var(--green);
+      color: var(--navy);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      padding: 5px 14px;
+      border-radius: 20px;
+      margin-bottom: 18px;
+    }
+    .section-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--green);
+      margin-bottom: 12px;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      background: rgba(10,37,64,0.92);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 64px;
+    }
+    .nav-logo {
+      font-family: var(--font-display);
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--white);
+    }
+    .nav-logo span { color: var(--green); }
+    .nav-links {
+      display: flex;
+      gap: 32px;
+      list-style: none;
+    }
+    .nav-links a {
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--white); }
+    .nav-cta {
+      background: var(--green);
+      color: var(--navy) !important;
+      font-weight: 700 !important;
+      padding: 8px 20px;
+      border-radius: 20px;
+      font-size: 13px !important;
+      transition: background 0.2s, transform 0.15s !important;
+    }
+    .nav-cta:hover { background: var(--green2) !important; transform: translateY(-1px); }
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; }
+    .hamburger span { display: block; width: 22px; height: 2px; background: var(--white); border-radius: 2px; transition: all 0.3s; }
+    .mobile-menu {
+      display: none;
+      flex-direction: column;
+      gap: 0;
+      background: var(--navy2);
+      border-top: 1px solid var(--border);
+      padding: 12px 0;
+    }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a { color: var(--muted); padding: 12px 28px; font-size: 15px; border-bottom: 1px solid var(--border); }
+    .mobile-menu a:last-child { border-bottom: none; }
+
+    /* ── HERO ── */
+    #hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+      padding-top: 64px;
+    }
+    .hero-arc {
+      position: absolute;
+      top: -120px; right: -120px;
+      width: 600px; height: 600px;
+      border-radius: 50%;
+      border: 1px solid rgba(29,158,117,0.2);
+      pointer-events: none;
+    }
+    .hero-arc:nth-child(2) { width: 820px; height: 820px; top: -220px; right: -220px; border-color: rgba(29,158,117,0.1); }
+    .hero-arc:nth-child(3) { width: 1040px; height: 1040px; top: -320px; right: -320px; border-color: rgba(29,158,117,0.06); }
+    .hero-dots {
+      position: absolute;
+      bottom: 60px; left: 28px;
+      display: grid;
+      grid-template-columns: repeat(4,1fr);
+      gap: 14px;
+      opacity: 0.12;
+    }
+    .hero-dots span {
+      display: block;
+      width: 5px; height: 5px;
+      border-radius: 50%;
+      background: var(--green);
+    }
+    .hero-content { position: relative; z-index: 1; padding: 80px 0; }
+    .hero-content h1 {
+      font-family: var(--font-display);
+      font-size: clamp(44px, 7vw, 82px);
+      font-weight: 700;
+      line-height: 1.1;
+      margin-bottom: 24px;
+    }
+    .hero-content h1 em {
+      font-style: normal;
+      color: var(--green);
+    }
+    .hero-content p {
+      font-size: clamp(16px, 2vw, 19px);
+      color: var(--muted);
+      max-width: 560px;
+      margin-bottom: 36px;
+      line-height: 1.7;
+    }
+    .hero-btns { display: flex; gap: 14px; flex-wrap: wrap; }
+    .btn-primary {
+      background: var(--green);
+      color: var(--navy);
+      font-weight: 700;
+      font-size: 15px;
+      padding: 14px 28px;
+      border-radius: 8px;
+      transition: background 0.2s, transform 0.15s;
+      display: inline-flex; align-items: center; gap: 8px;
+    }
+    .btn-primary:hover { background: var(--green2); color: var(--navy); transform: translateY(-2px); }
+    .btn-outline {
+      border: 1px solid var(--border);
+      color: var(--white);
+      font-size: 15px;
+      padding: 14px 28px;
+      border-radius: 8px;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .btn-outline:hover { border-color: var(--green); background: rgba(29,158,117,0.08); color: var(--white); }
+    .hero-stats {
+      display: flex;
+      gap: 40px;
+      margin-top: 56px;
+      padding-top: 40px;
+      border-top: 1px solid var(--border);
+      flex-wrap: wrap;
+    }
+    .hero-stat strong {
+      display: block;
+      font-family: var(--font-display);
+      font-size: 36px;
+      font-weight: 700;
+      color: var(--green);
+    }
+    .hero-stat span {
+      font-size: 13px;
+      color: var(--muted);
+      letter-spacing: 0.5px;
+    }
+
+    /* ── SERVICES ── */
+    #services {
+      padding: 100px 0;
+      border-top: 1px solid var(--border);
+    }
+    .services-header { margin-bottom: 56px; }
+    .services-header h2 {
+      font-family: var(--font-display);
+      font-size: clamp(32px, 4.5vw, 52px);
+      font-weight: 700;
+      line-height: 1.15;
+      max-width: 560px;
+    }
+    .services-header h2 em { font-style: normal; color: var(--green); }
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 20px;
+    }
+    .service-card {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 32px;
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.2s, background 0.2s, transform 0.2s;
+    }
+    .service-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 4px; height: 100%;
+      background: var(--green);
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+    .service-card:hover { border-color: var(--green); background: rgba(29,158,117,0.06); transform: translateY(-3px); }
+    .service-card:hover::before { opacity: 1; }
+    .service-icon {
+      font-size: 28px;
+      margin-bottom: 16px;
+      display: block;
+    }
+    .service-card h3 {
+      font-family: var(--font-display);
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+    .service-card p { font-size: 14px; color: var(--muted); line-height: 1.65; }
+
+    /* ── WHY ── */
+    #why {
+      padding: 100px 0;
+      background: rgba(255,255,255,0.02);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+    .why-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 64px;
+      align-items: center;
+    }
+    .why-text h2 {
+      font-family: var(--font-display);
+      font-size: clamp(28px, 3.5vw, 44px);
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 20px;
+    }
+    .why-text h2 em { font-style: normal; color: var(--green); }
+    .why-text p { color: var(--muted); font-size: 15px; line-height: 1.75; margin-bottom: 32px; }
+    .why-points { display: flex; flex-direction: column; gap: 18px; }
+    .why-point {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+    }
+    .why-point-icon {
+      width: 36px; height: 36px;
+      min-width: 36px;
+      background: rgba(29,158,117,0.15);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 16px;
+    }
+    .why-point-text strong { display: block; font-size: 14px; margin-bottom: 2px; }
+    .why-point-text span { font-size: 13px; color: var(--muted); }
+
+    /* why visual panel */
+    .why-visual {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 40px;
+      position: relative;
+      overflow: hidden;
+    }
+    .why-visual::before {
+      content: '';
+      position: absolute;
+      top: -60px; right: -60px;
+      width: 200px; height: 200px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(29,158,117,0.15), transparent 70%);
+    }
+    .deadline-banner {
+      background: var(--green);
+      color: var(--navy);
+      border-radius: 8px;
+      padding: 20px 24px;
+      margin-bottom: 20px;
+    }
+    .deadline-banner .dlabel { font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; opacity: 0.7; margin-bottom: 4px; }
+    .deadline-banner .ddate { font-family: var(--font-display); font-size: 32px; font-weight: 700; }
+    .deadline-banner .ddesc { font-size: 13px; opacity: 0.75; margin-top: 2px; }
+    .checklist { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+    .checklist li {
+      display: flex; align-items: center; gap: 10px;
+      font-size: 14px; color: var(--muted);
+    }
+    .checklist li::before {
+      content: '✓';
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 22px; height: 22px; min-width: 22px;
+      background: rgba(29,158,117,0.15);
+      color: var(--green);
+      border-radius: 50%;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    /* ── WHO WE HELP ── */
+    #who {
+      padding: 100px 0;
+    }
+    .who-header { text-align: center; margin-bottom: 56px; }
+    .who-header h2 {
+      font-family: var(--font-display);
+      font-size: clamp(28px, 3.5vw, 44px);
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+    .who-header h2 em { font-style: normal; color: var(--green); }
+    .who-header p { color: var(--muted); font-size: 16px; max-width: 480px; margin: 0 auto; }
+    .who-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 16px;
+    }
+    .who-card {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px 24px;
+      text-align: center;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .who-card:hover { border-color: var(--green); background: rgba(29,158,117,0.06); }
+    .who-card .who-icon { font-size: 30px; margin-bottom: 12px; }
+    .who-card h4 { font-size: 15px; font-weight: 700; margin-bottom: 6px; }
+    .who-card p { font-size: 13px; color: var(--muted); }
+
+    /* ── CTA BANNER ── */
+    #cta {
+      padding: 100px 0;
+      border-top: 1px solid var(--border);
+    }
+    .cta-box {
+      background: var(--green);
+      border-radius: 16px;
+      padding: 64px 56px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 40px;
+      flex-wrap: wrap;
+      position: relative;
+      overflow: hidden;
+    }
+    .cta-box::before {
+      content: '';
+      position: absolute;
+      top: -80px; right: -80px;
+      width: 300px; height: 300px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.1);
+    }
+    .cta-box::after {
+      content: '';
+      position: absolute;
+      bottom: -60px; left: -60px;
+      width: 200px; height: 200px;
+      border-radius: 50%;
+      background: rgba(10,37,64,0.1);
+    }
+    .cta-text { position: relative; z-index: 1; }
+    .cta-text h2 {
+      font-family: var(--font-display);
+      font-size: clamp(26px, 3vw, 38px);
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 10px;
+    }
+    .cta-text p { color: rgba(10,37,64,0.7); font-size: 16px; max-width: 440px; }
+    .cta-actions { position: relative; z-index: 1; display: flex; flex-direction: column; gap: 12px; align-items: flex-end; }
+    .btn-dark {
+      background: var(--navy);
+      color: var(--white);
+      font-weight: 700;
+      font-size: 15px;
+      padding: 14px 28px;
+      border-radius: 8px;
+      transition: background 0.2s, transform 0.15s;
+      display: inline-flex; align-items: center; gap: 8px;
+      white-space: nowrap;
+    }
+    .btn-dark:hover { background: var(--navy2); color: var(--white); transform: translateY(-2px); }
+    .cta-contact { font-size: 13px; color: rgba(10,37,64,0.6); text-align: right; }
+    .cta-contact a { color: var(--navy); font-weight: 600; }
+
+    /* ── CONTACT ── */
+    #contact {
+      padding: 100px 0;
+      border-top: 1px solid var(--border);
+    }
+    .contact-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 64px;
+      align-items: start;
+    }
+    .contact-info h2 {
+      font-family: var(--font-display);
+      font-size: clamp(28px, 3.5vw, 42px);
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 16px;
+    }
+    .contact-info h2 em { font-style: normal; color: var(--green); }
+    .contact-info p { color: var(--muted); font-size: 15px; line-height: 1.75; margin-bottom: 36px; }
+    .contact-items { display: flex; flex-direction: column; gap: 20px; }
+    .contact-item { display: flex; align-items: center; gap: 14px; }
+    .contact-item-icon {
+      width: 44px; height: 44px; min-width: 44px;
+      background: rgba(29,158,117,0.12);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px;
+    }
+    .contact-item-text span { display: block; font-size: 12px; color: var(--muted); margin-bottom: 2px; letter-spacing: 0.5px; }
+    .contact-item-text strong { font-size: 15px; }
+    .contact-item-text a { color: var(--white); }
+    .contact-item-text a:hover { color: var(--green); }
+
+    /* contact form */
+    .contact-form { display: flex; flex-direction: column; gap: 16px; }
+    .form-group { display: flex; flex-direction: column; gap: 6px; }
+    .form-group label { font-size: 12px; font-weight: 600; letter-spacing: 0.5px; color: var(--muted); text-transform: uppercase; }
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--white);
+      font-family: var(--font-body);
+      font-size: 15px;
+      padding: 12px 16px;
+      outline: none;
+      transition: border-color 0.2s, background 0.2s;
+      width: 100%;
+    }
+    .form-group input::placeholder,
+    .form-group textarea::placeholder { color: rgba(255,255,255,0.25); }
+    .form-group input:focus,
+    .form-group textarea:focus,
+    .form-group select:focus { border-color: var(--green); background: rgba(29,158,117,0.06); }
+    .form-group textarea { resize: vertical; min-height: 110px; }
+    .form-group select option { background: var(--navy2); color: var(--white); }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .btn-submit {
+      background: var(--green);
+      color: var(--navy);
+      font-weight: 700;
+      font-size: 15px;
+      padding: 14px 28px;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.15s;
+      width: 100%;
+      font-family: var(--font-body);
+    }
+    .btn-submit:hover { background: var(--green2); transform: translateY(-1px); }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 40px 0 32px;
+    }
+    .footer-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+    .footer-logo {
+      font-family: var(--font-display);
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--white);
+    }
+    .footer-logo span { color: var(--green); }
+    .footer-tagline { font-size: 12px; color: var(--muted); margin-top: 4px; letter-spacing: 0.5px; }
+    .footer-links { display: flex; gap: 24px; flex-wrap: wrap; }
+    .footer-links a { font-size: 13px; color: var(--muted); transition: color 0.2s; }
+    .footer-links a:hover { color: var(--white); }
+    .footer-copy { font-size: 12px; color: rgba(255,255,255,0.25); }
+
+    /* ── WHATSAPP FLOAT ── */
+    .whatsapp-float {
+      position: fixed;
+      bottom: 28px; right: 28px;
+      width: 56px; height: 56px;
+      background: #25D366;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 4px 20px rgba(37,211,102,0.4);
+      z-index: 200;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .whatsapp-float:hover { transform: scale(1.1); box-shadow: 0 6px 28px rgba(37,211,102,0.55); }
+    .whatsapp-float svg { width: 28px; height: 28px; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .hamburger { display: flex; }
+      .why-inner { grid-template-columns: 1fr; }
+      .contact-inner { grid-template-columns: 1fr; }
+      .cta-box { padding: 40px 28px; }
+      .cta-actions { align-items: flex-start; }
+      .form-row { grid-template-columns: 1fr; }
+      .hero-stats { gap: 24px; }
+    }
+    @media (max-width: 480px) {
+      .hero-btns { flex-direction: column; }
+      .btn-primary, .btn-outline { width: 100%; justify-content: center; }
+    }
+
+    /* ── SCROLL REVEAL ── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.55s ease, transform 0.55s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: none;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .reveal { opacity: 1; transform: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <div class="container nav-inner">
+      <a href="#hero" class="nav-logo">Accoun<span>Tech</span> Malta</a>
+      <ul class="nav-links">
+        <li><a href="#services">Services</a></li>
+        <li><a href="#why">Why Us</a></li>
+        <li><a href="#who">Who We Help</a></li>
+        <li><a href="#contact" class="nav-cta">Get in Touch</a></li>
+      </ul>
+      <div class="hamburger" onclick="toggleMenu()" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <div class="mobile-menu" id="mobileMenu">
+      <a href="#services" onclick="toggleMenu()">Services</a>
+      <a href="#why" onclick="toggleMenu()">Why Us</a>
+      <a href="#who" onclick="toggleMenu()">Who We Help</a>
+      <a href="#contact" onclick="toggleMenu()">Get in Touch</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-arc"></div>
+    <div class="hero-arc"></div>
+    <div class="hero-arc"></div>
+    <div class="hero-dots">
+      <span></span><span></span><span></span><span></span>
+      <span></span><span></span><span></span><span></span>
+      <span></span><span></span><span></span><span></span>
+    </div>
+    <div class="container">
+      <div class="hero-content">
+        <span class="tag">Based in Malta 🇲🇹</span>
+        <h1>Your numbers,<br/><em>sorted.</em></h1>
+        <p>Accounting, VAT returns, payroll, government grants and business automation — for self-employed people and small businesses across Malta.</p>
+        <div class="hero-btns">
+          <a href="#contact" class="btn-primary">Get a free quote →</a>
+          <a href="#services" class="btn-outline">See our services</a>
+        </div>
+        <div class="hero-stats">
+          <div class="hero-stat">
+            <strong>30 Jun</strong>
+            <span>Tax return deadline</span>
+          </div>
+          <div class="hero-stat">
+            <strong>Same day</strong>
+            <span>Response guaranteed</span>
+          </div>
+          <div class="hero-stat">
+            <strong>Fast</strong>
+            <span>Turnaround guaranteed</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICES -->
+  <section id="services">
+    <div class="container">
+      <div class="services-header reveal">
+        <p class="section-label">What we do</p>
+        <h2>Everything your business<br/><em>needs to stay compliant.</em></h2>
+      </div>
+      <div class="services-grid">
+        <div class="service-card reveal">
+          <span class="service-icon">📄</span>
+          <h3>Tax Returns</h3>
+          <p>Self-employed income tax returns filed accurately and on time. We make sure you claim every deduction you're entitled to.</p>
+        </div>
+        <div class="service-card reveal">
+          <span class="service-icon">🧾</span>
+          <h3>VAT Returns</h3>
+          <p>Quarterly and annual VAT return preparation and submission to CFR. We handle the paperwork so you don't have to.</p>
+        </div>
+        <div class="service-card reveal">
+          <span class="service-icon">💰</span>
+          <h3>Payroll Management</h3>
+          <p>Monthly payroll processing, FS5 submissions, and employee payslips — fully compliant with Maltese employment law.</p>
+        </div>
+        <div class="service-card reveal">
+          <span class="service-icon">🏛️</span>
+          <h3>Government Grants</h3>
+          <p>We identify and help you apply for available Malta Enterprise and EU grants relevant to your business.</p>
+        </div>
+        <div class="service-card reveal">
+          <span class="service-icon">📊</span>
+          <h3>Management Accounts</h3>
+          <p>Monthly and quarterly management accounts giving you a clear picture of your business performance.</p>
+        </div>
+        <div class="service-card reveal">
+          <span class="service-icon">🤖</span>
+          <h3>Business Automation</h3>
+          <p>Excel, Power Automate and BI dashboards that save you hours every week. We build tools that work while you work.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHY US -->
+  <section id="why">
+    <div class="container">
+      <div class="why-inner">
+        <div class="why-text reveal">
+          <p class="section-label">Why AccounTech Malta</p>
+          <h2>Local knowledge.<br/><em>Modern tools.</em></h2>
+          <p>We're a Malta-based accounting and automation practice that combines proper accounting expertise with modern technology. No jargon, no unnecessary complexity — just clear, affordable service that keeps your finances in order.</p>
+          <div class="why-points">
+            <div class="why-point">
+              <div class="why-point-icon">🇲🇹</div>
+              <div class="why-point-text">
+                <strong>100% Malta-based</strong>
+                <span>We know Maltese tax law, CFR requirements and local compliance inside out.</span>
+              </div>
+            </div>
+            <div class="why-point">
+              <div class="why-point-icon">⚡</div>
+              <div class="why-point-text">
+                <strong>Fast turnaround</strong>
+                <span>No waiting weeks. We work quickly and communicate clearly throughout.</span>
+              </div>
+            </div>
+            <div class="why-point">
+              <div class="why-point-icon">💬</div>
+              <div class="why-point-text">
+                <strong>WhatsApp friendly</strong>
+                <span>Reach us directly on WhatsApp — no phone queues, no ticketing systems.</span>
+              </div>
+            </div>
+            <div class="why-point">
+              <div class="why-point-icon">💶</div>
+              <div class="why-point-text">
+                <strong>Transparent pricing</strong>
+                <span>Clear, affordable fees with no hidden surprises. You know what you pay upfront.</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="why-visual reveal">
+          <div class="deadline-banner">
+            <div class="dlabel">⚠ Upcoming deadline</div>
+            <div class="ddate">30 June 2026</div>
+            <div class="ddesc">Self-employed income tax return due</div>
+          </div>
+          <ul class="checklist">
+            <li>Income tax return (ta' għalik innifsek)</li>
+            <li>Freelancers &amp; contractors</li>
+            <li>Additional income outside employment</li>
+            <li>Rental income declarations</li>
+            <li>Online filers get extended to 31 July</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHO WE HELP -->
+  <section id="who">
+    <div class="container">
+      <div class="who-header reveal">
+        <p class="section-label">Who we work with</p>
+        <h2>Built for <em>Malta's workers.</em></h2>
+        <p>Whether you're just starting out or have been trading for years, we've got you covered.</p>
+      </div>
+      <div class="who-grid">
+        <div class="who-card reveal">
+          <div class="who-icon">🔧</div>
+          <h4>Tradespeople</h4>
+          <p>Electricians, plumbers, builders, and all self-employed trades in Malta.</p>
+        </div>
+        <div class="who-card reveal">
+          <div class="who-icon">💻</div>
+          <h4>Freelancers</h4>
+          <p>Designers, developers, consultants and creatives working for themselves.</p>
+        </div>
+        <div class="who-card reveal">
+          <div class="who-icon">🏪</div>
+          <h4>Small Businesses</h4>
+          <p>Small companies and partnerships that need reliable monthly accounting.</p>
+        </div>
+        <div class="who-card reveal">
+          <div class="who-icon">🚗</div>
+          <h4>Delivery &amp; Transport</h4>
+          <p>Self-employed drivers, couriers and logistics operators.</p>
+        </div>
+        <div class="who-card reveal">
+          <div class="who-icon">🍽️</div>
+          <h4>Hospitality</h4>
+          <p>Catering, food &amp; beverage, and tourism operators across Malta.</p>
+        </div>
+        <div class="who-card reveal">
+          <div class="who-icon">🏗️</div>
+          <h4>Construction</h4>
+          <p>Contractors, subcontractors and project managers in the building trade.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA BANNER -->
+  <section id="cta">
+    <div class="container">
+      <div class="cta-box reveal">
+        <div class="cta-text">
+          <h2>Don't miss the 30 June deadline.</h2>
+          <p>Get your tax return sorted quickly, affordably, and stress-free. Message us today and we'll get you started right away.</p>
+        </div>
+        <div class="cta-actions">
+          <a href="https://wa.me/35699025504" target="_blank" class="btn-dark">💬 WhatsApp us now</a>
+          <div class="cta-contact">
+            or email <a href="mailto:acctechmalta@gmail.com">acctechmalta@gmail.com</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="container">
+      <div class="contact-inner">
+        <div class="contact-info reveal">
+          <p class="section-label">Get in touch</p>
+          <h2>Let's sort your<br/><em>finances out.</em></h2>
+          <p>Drop us a message and we'll get back to you the same day. No commitment, no pressure — just a straight answer about how we can help.</p>
+          <div class="contact-items">
+            <div class="contact-item">
+              <div class="contact-item-icon">📞</div>
+              <div class="contact-item-text">
+                <span>WhatsApp / Phone</span>
+                <strong><a href="https://wa.me/35699025504">+356 99025504</a></strong>
+              </div>
+            </div>
+            <div class="contact-item">
+              <div class="contact-item-icon">📧</div>
+              <div class="contact-item-text">
+                <span>Email</span>
+                <strong><a href="mailto:acctechmalta@gmail.com">acctechmalta@gmail.com</a></strong>
+              </div>
+            </div>
+            <div class="contact-item">
+              <div class="contact-item-icon">🇲🇹</div>
+              <div class="contact-item-text">
+                <span>Location</span>
+                <strong>Malta</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="reveal">
+          <form class="contact-form" onsubmit="handleSubmit(event)">
+            <div class="form-row">
+              <div class="form-group">
+                <label>Your name</label>
+                <input type="text" placeholder="Joe Borg" required/>
+              </div>
+              <div class="form-group">
+                <label>Phone / WhatsApp</label>
+                <input type="tel" placeholder="+356 9900 0000"/>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Email</label>
+              <input type="email" placeholder="joe@example.com" required/>
+            </div>
+            <div class="form-group">
+              <label>What do you need help with?</label>
+              <select>
+                <option value="">Select a service...</option>
+                <option>Tax Return</option>
+                <option>VAT Return</option>
+                <option>Payroll</option>
+                <option>Government Grants</option>
+                <option>Management Accounts</option>
+                <option>Business Automation</option>
+                <option>Something else</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Message</label>
+              <textarea placeholder="Tell us a bit about your situation..."></textarea>
+            </div>
+            <button type="submit" class="btn-submit">Send message →</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container">
+      <div class="footer-inner">
+        <div>
+          <div class="footer-logo">Accoun<span>Tech</span> Malta</div>
+          <div class="footer-tagline">Accounting · Advisory · Automation</div>
+        </div>
+        <div class="footer-links">
+          <a href="#services">Services</a>
+          <a href="#why">Why Us</a>
+          <a href="#who">Who We Help</a>
+          <a href="#contact">Contact</a>
+        </div>
+        <div class="footer-copy">© 2026 AccounTech Malta. All rights reserved.</div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- WHATSAPP FLOAT -->
+  <a class="whatsapp-float" href="https://wa.me/35699025504" target="_blank" aria-label="Chat on WhatsApp">
+    <svg viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
+      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+    </svg>
+  </a>
+
+  <script>
+    // Mobile menu
+    function toggleMenu() {
+      document.getElementById('mobileMenu').classList.toggle('open');
+    }
+
+    // Smooth active nav highlight
+    const sections = document.querySelectorAll('section[id]');
+    const navLinks = document.querySelectorAll('.nav-links a');
+    window.addEventListener('scroll', () => {
+      let current = '';
+      sections.forEach(s => {
+        if (window.scrollY >= s.offsetTop - 100) current = s.id;
+      });
+      navLinks.forEach(a => {
+        a.style.color = a.getAttribute('href') === '#' + current ? 'var(--white)' : '';
+      });
+    });
+
+    // Scroll reveal
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    // Contact form
+    function handleSubmit(e) {
+      e.preventDefault();
+      const btn = e.target.querySelector('.btn-submit');
+      btn.textContent = '✓ Message sent!';
+      btn.style.background = '#0A2540';
+      btn.style.color = '#1D9E75';
+      setTimeout(() => { btn.textContent = 'Send message →'; btn.style.background = ''; btn.style.color = ''; }, 3000);
+    }
+  </script>
+</body>
+</html>
